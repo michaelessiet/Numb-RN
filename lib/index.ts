@@ -1,0 +1,1 @@
+export default async function numbEngine(text: string, precision=6) {}
