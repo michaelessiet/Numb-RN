@@ -1,87 +1,57 @@
-import { Github, Twitter } from "@tamagui/lucide-icons";
-import { Link, useRouter } from "expo-router";
+import { Github, Settings, Twitter } from "@tamagui/lucide-icons"
+import { Link, Stack, useRouter } from "expo-router"
 import {
-  Button,
-  H1,
-  ListItem,
-  Paragraph,
-  Separator,
-  YGroup,
-  YStack
-} from "tamagui";
+	Button,
+	H1,
+	ListItem,
+	Paragraph,
+	Separator,
+	YGroup,
+	YStack,
+	useTheme,
+} from "tamagui"
 
-import { MyStack } from "../components/MyStack";
+import { MyStack } from "../components/MyStack"
+import { Text } from "react-native"
+import { useState } from "react"
+import SettingsSheet from "../components/SettingsSheet"
+import Playground from "../components/Playground"
 
 export default function Home() {
-  const router = useRouter();
+	const theme = useTheme()
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
-  return (
-    <MyStack>
-      <YStack
-        space="$4"
-        maxWidth={600}
-      >
-        <H1 textAlign="center">Welcome to Tamagui.</H1>
-        <Paragraph textAlign="center">
-          Here&apos;s a basic starter to show navigating from one screen to
-          another.
-        </Paragraph>
-      </YStack>
+  function handleSettingsButtonPress () {
+    setIsSettingsOpen(prev => !prev)
+  }
 
-      <Button onPress={() => router.push("/users/testuser")}>
-        Go to user page
-      </Button>
-
-      <YStack space="$5">
-        <YGroup
-          bordered
-          separator={<Separator />}
-          theme="green"
-        >
-          <YGroup.Item>
-            <Link
-              asChild
-              href="https://twitter.com/natebirdman"
-              target="_blank"
-            >
-              <ListItem
-                hoverTheme
-                title="Nate"
-                pressTheme
-                icon={Twitter}
-              />
-            </Link>
-          </YGroup.Item>
-          <YGroup.Item>
-            <Link
-              asChild
-              href="https://github.com/tamagui/tamagui"
-              target="_blank"
-            >
-              <ListItem
-                hoverTheme
-                pressTheme
-                title="Tamagui"
-                icon={Github}
-              />
-            </Link>
-          </YGroup.Item>
-          <YGroup.Item>
-            <Link
-              asChild
-              href="https://github.com/ivopr/tamagui-expo"
-              target="_blank"
-            >
-              <ListItem
-                hoverTheme
-                pressTheme
-                title="This Template"
-                icon={Github}
-              />
-            </Link>
-          </YGroup.Item>
-        </YGroup>
-      </YStack>
-    </MyStack>
-  );
+	return (
+		<>
+			<Stack.Screen
+				options={{
+					headerRight: (props) => {
+						return <Settings size={24} onPress={handleSettingsButtonPress}/>
+					},
+					headerLeft: (props) => {
+						return (
+							<Text
+								style={{
+									fontWeight: "bold",
+									fontSize: 24,
+									color: theme.blue10.get(),
+								}}
+							>
+								Numb
+							</Text>
+						)
+					},
+					headerTitleStyle: { fontSize: 0 },
+				}}
+			/>
+			<MyStack>
+				<Playground/>
+        <SettingsSheet isOpen={isSettingsOpen} onOpenChange={handleSettingsButtonPress}/>
+			</MyStack>
+		</>
+	)
 }
