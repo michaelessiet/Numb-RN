@@ -1,8 +1,22 @@
 import { useColorScheme } from "react-native"
-import React from "react"
-import { Label, Sheet, Switch, XStack } from "tamagui"
+import React, { useMemo } from "react"
+import {
+	Label,
+	Sheet,
+	Switch,
+	Text,
+	Theme,
+	XStack,
+	updateTheme,
+	useTheme,
+	useThemeName,
+} from "tamagui"
 import { Sun, Moon } from "@tamagui/lucide-icons"
 import { Link } from "expo-router"
+import {
+	DarkTheme,
+	DefaultTheme,
+} from "@react-navigation/native"
 
 interface Props {
 	isOpen: boolean
@@ -10,7 +24,8 @@ interface Props {
 }
 
 const SettingsSheet = (props: Props) => {
-	const colorScheme = useColorScheme()
+	const theme = useThemeName()
+	const isDark = useMemo(() => theme === "dark", [theme])
 
 	return (
 		<Sheet
@@ -29,7 +44,7 @@ const SettingsSheet = (props: Props) => {
 
 					<XStack alignItems="center" gap={8}>
 						<Sun size={20} />
-						<Switch id="notify" checked={colorScheme === "dark"}>
+						<Switch id="notify" checked={isDark}>
 							<Switch.Thumb animation="quick" />
 						</Switch>
 						<Moon size={20} />
@@ -37,7 +52,7 @@ const SettingsSheet = (props: Props) => {
 				</XStack>
 
 				<Link href={"/help"} style={{ fontSize: 18 }}>
-					Help/Instructions
+					<Text>Help/Instructions</Text>
 				</Link>
 			</Sheet.Frame>
 		</Sheet>
