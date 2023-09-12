@@ -1,3 +1,6 @@
+import convert from "convert"
+import stringMath from 'string-math'
+
 export function numbEngine(text: string, precision = 2): string {
 	return "1"
 }
@@ -9,6 +12,13 @@ export async function numbEngineAsync(
 	return "1"
 }
 
-export default async function engine(text: string, precision = 2): Promise<string> {
-	return text
+export default async function engine(
+	text: string,
+	precision = 2
+): Promise<string> {
+	try {
+		return stringMath(text)
+	} catch (error) {
+		return text
+	}
 }
