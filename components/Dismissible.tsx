@@ -9,14 +9,15 @@ import Animated, {
 import { SequencedTransition } from "react-native-reanimated"
 
 interface Props {
-	id: number
-	onDismiss: (id: number) => void
+	id: number | string
+	onDismiss: (id: number | string) => void
 	children: React.ReactNode
 }
 
 const Dismissible = (props: Props) => {
 	const start = useSharedValue({ x: 0 })
 	const offset = useSharedValue({ x: 0 })
+	const isDragging = useSharedValue(false)
 
 	function handleDismiss() {
 		props.onDismiss(props.id)
@@ -32,6 +33,7 @@ const Dismissible = (props: Props) => {
 
 	const gesture = Gesture.Pan()
 		.runOnJS(true)
+		.minVelocity(500)
 		.onUpdate((e) => {
 			const movement = e.translationX + start.value.x
 			offset.value = {
@@ -48,6 +50,9 @@ const Dismissible = (props: Props) => {
 			offset.value = {
 				x: 0,
 			}
+		})
+		.onFinalize(() => {
+			isDragging.value = false
 		})
 
 	return (

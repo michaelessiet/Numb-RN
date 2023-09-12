@@ -1,15 +1,6 @@
-import { Github, Settings, Twitter } from "@tamagui/lucide-icons"
-import { Link, Stack, useRouter } from "expo-router"
-import {
-	Button,
-	H1,
-	ListItem,
-	Paragraph,
-	Separator,
-	YGroup,
-	YStack,
-	useTheme,
-} from "tamagui"
+import { Settings } from "@tamagui/lucide-icons"
+import { Stack } from "expo-router"
+import { useTheme } from "tamagui"
 
 import { MyStack } from "../components/MyStack"
 import { Text } from "react-native"
@@ -19,20 +10,20 @@ import Playground from "../components/Playground"
 
 export default function Home() {
 	const theme = useTheme()
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+	const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
-  function handleSettingsButtonPress () {
-    setIsSettingsOpen(prev => !prev)
-  }
+	function handleSettingsButtonPress() {
+		setIsSettingsOpen((prev) => !prev)
+	}
 
 	return (
 		<>
 			<Stack.Screen
 				options={{
-					headerRight: (props) => {
-						return <Settings size={24} onPress={handleSettingsButtonPress}/>
+					headerRight: () => {
+						return <Settings size={24} onPress={handleSettingsButtonPress} />
 					},
-					headerLeft: (props) => {
+					headerLeft: () => {
 						return (
 							<Text
 								style={{
@@ -49,8 +40,11 @@ export default function Home() {
 				}}
 			/>
 			<MyStack>
-				<Playground/>
-        <SettingsSheet isOpen={isSettingsOpen} onOpenChange={handleSettingsButtonPress}/>
+				<Playground />
+				<SettingsSheet
+					isOpen={isSettingsOpen}
+					onOpenChange={handleSettingsButtonPress}
+				/>
 			</MyStack>
 		</>
 	)

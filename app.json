@@ -12,6 +12,12 @@
     "slug": "numb",
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "android": {
+      "package": "com.numb.app"
+    },
+    "ios": {
+      "bundleIdentifier": "com.numb.app"
+    }
   }
 }

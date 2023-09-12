@@ -11,33 +11,40 @@ interface Prompt {
 
 type Prompts = Prompt[]
 
-const initialValue: Prompts = [
-	{
-		id: randomUUID(),
-		question: placeholderQuestions[0],
-		answer: numbEngine(placeholderQuestions[0]),
-	},
-	{
-		id: randomUUID(),
-		question: placeholderQuestions[1],
-		answer: numbEngine(placeholderQuestions[1]),
-	},
-	{
-		id: randomUUID(),
-		question: placeholderQuestions[2],
-		answer: numbEngine(placeholderQuestions[2]),
-	},
-]
+const initialValue: { prompts: Prompts } = {
+	prompts: [
+		{
+			id: randomUUID(),
+			question: placeholderQuestions[0],
+			answer: numbEngine(placeholderQuestions[0]),
+		},
+		{
+			id: randomUUID(),
+			question: placeholderQuestions[1],
+			answer: numbEngine(placeholderQuestions[1]),
+		},
+		{
+			id: randomUUID(),
+			question: placeholderQuestions[2],
+			answer: numbEngine(placeholderQuestions[2]),
+		},
+	],
+}
 
 const promptsSlice = createSlice({
 	initialState: initialValue,
 	name: "prompts",
 	reducers: {
 		addPrompt: (state) => {
-			state = [...state, { answer: "", question: "", id: randomUUID() }]
+			state.prompts = [
+				...state.prompts,
+				{ answer: "", question: "", id: randomUUID() },
+			]
 		},
 		removePrompt: (state, payload: PayloadAction<string>) => {
-			state = state.filter((item) => item.id !== payload.payload)
+			state.prompts = state.prompts.filter(
+				(item) => item.id !== payload.payload
+			)
 		},
 		updatePrompt: (
 			state,
@@ -47,8 +54,8 @@ const promptsSlice = createSlice({
 				index: number
 			}>
 		) => {
-			state[payload.payload.index] = {
-				...state[payload.payload.index],
+			state.prompts[payload.payload.index] = {
+				...state.prompts[payload.payload.index],
 				question: payload.payload.question,
 				answer: payload.payload.answer,
 			}

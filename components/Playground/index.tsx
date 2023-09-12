@@ -1,37 +1,30 @@
-import React, { useMemo, useState } from "react"
-import { generateArrayFromNumber } from "../../utils/utils"
+import React from "react"
 import PlaygroundInput from "./PlaygroundInput"
 import { Button, ScrollView, View, YStack } from "tamagui"
 import Dismissible from "../Dismissible"
-import { Dimensions, LayoutAnimation } from "react-native"
-import Animated, {
-	CurvedTransition,
-	EntryExitTransition,
-	FadingTransition,
-	JumpingTransition,
-	SequencedTransition,
-	SharedTransition,
-} from "react-native-reanimated"
+import { Dimensions } from "react-native"
+import { useAppDispatch, useAppSelector } from "../../store/hooks"
+import { addPrompt, removePrompt } from "../../store/prompts"
 
 const Playground = () => {
-	const [noOfLines, setNoOfLines] = useState(generateArrayFromNumber(4))
+	const dispatch = useAppDispatch()
+	const {prompts} = useAppSelector((state) => state.promptsdata)
 
-	function handleDismiss(id: number) {
-		const temp = noOfLines.filter((v, i) => i !== id)
-		setNoOfLines(temp)
+	function handleDismiss(id: string) {
+		dispatch(removePrompt(id))
 	}
 
 	function handleAddLine() {
-		setNoOfLines((prev) => [...prev, Math.random() * 100000000000000])
+		dispatch(addPrompt())
 	}
 
 	return (
 		<View height={Dimensions.get("screen").height - 150}>
 			<ScrollView showsVerticalScrollIndicator>
 				<YStack gap={8}>
-					{noOfLines.map((v, i) => (
-						<Dismissible id={i} key={v} onDismiss={handleDismiss}>
-							<PlaygroundInput />
+					{prompts.map((v, i) => (
+						<Dismissible id={v.id} key={v.id} onDismiss={handleDismiss}>
+							<PlaygroundInput index={i} id={v.id} />
 						</Dismissible>
 					))}
 				</YStack>
