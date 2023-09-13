@@ -2,6 +2,8 @@ import { View, Text } from "react-native"
 import React from "react"
 import { Gesture, GestureDetector } from "react-native-gesture-handler"
 import Animated, {
+	FadeInDown,
+	FadeInUp,
 	useAnimatedStyle,
 	useSharedValue,
 	withSpring,
@@ -57,7 +59,11 @@ const Dismissible = (props: Props) => {
 
 	return (
 		<GestureDetector gesture={gesture}>
-			<Animated.View layout={SequencedTransition} style={animatedStyle}>
+			<Animated.View
+				entering={FadeInDown}
+				layout={SequencedTransition}
+				style={animatedStyle}
+			>
 				{props.children}
 			</Animated.View>
 		</GestureDetector>
