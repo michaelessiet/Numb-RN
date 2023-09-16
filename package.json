@@ -19,6 +19,7 @@
     "@tamagui/theme": "^1.61.3",
     "@tamagui/themes": "^1.61.3",
     "convert": "^4.13.2",
+    "escape-string-regexp": "^5.0.0",
     "expo": "49.0.6",
     "expo-constants": "~14.4.2",
     "expo-font": "11.4.0",
@@ -28,6 +29,8 @@
     "expo-splash-screen": "^0.20.5",
     "expo-status-bar": "~1.6.0",
     "luxon": "^3.4.3",
+    "mathjs": "^11.11.0",
+    "nanoid": "^5.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.72.4",
@@ -42,7 +45,8 @@
     "redux-persist": "^6.0.0",
     "string-math": "^1.2.2",
     "tamagui": "^1.61.3",
-    "words-to-numbers": "^1.5.1"
+    "words-to-numbers": "^1.5.1",
+    "expo-clipboard": "~4.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.22.17",

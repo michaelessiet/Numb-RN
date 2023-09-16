@@ -1,19 +1,26 @@
-import { Settings } from "@tamagui/lucide-icons"
+import { Settings, Plus, PlusSquare, PlusCircle } from "@tamagui/lucide-icons"
 import { Stack } from "expo-router"
-import { useTheme } from "tamagui"
+import { XStack, useTheme } from "tamagui"
 
 import { MyStack } from "../components/MyStack"
 import { Text } from "react-native"
 import { useState } from "react"
 import SettingsSheet from "../components/SettingsSheet"
 import Playground from "../components/Playground"
+import { useAppDispatch } from "../store/hooks"
+import { addPrompt } from "../store/prompts"
 
 export default function Home() {
 	const theme = useTheme()
+	const dispatch = useAppDispatch()
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
 	function handleSettingsButtonPress() {
 		setIsSettingsOpen((prev) => !prev)
+	}
+
+	function handleAddLine() {
+		dispatch(addPrompt())
 	}
 
 	return (
@@ -21,7 +28,12 @@ export default function Home() {
 			<Stack.Screen
 				options={{
 					headerRight: () => {
-						return <Settings size={24} onPress={handleSettingsButtonPress} />
+						return (
+							<XStack gap={8}>
+								<Settings onPress={handleSettingsButtonPress} />
+								<PlusCircle onPress={handleAddLine}/>
+							</XStack>
+						)
 					},
 					headerLeft: () => {
 						return (

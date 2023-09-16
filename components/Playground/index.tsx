@@ -14,10 +14,6 @@ const Playground = () => {
 		dispatch(removePrompt(id))
 	}
 
-	function handleAddLine() {
-		dispatch(addPrompt())
-	}
-
 	return (
 		<View height={Dimensions.get("screen").height - 150}>
 			<ScrollView showsVerticalScrollIndicator>
@@ -29,10 +25,6 @@ const Playground = () => {
 					))}
 				</YStack>
 			</ScrollView>
-
-			<Button pos="absolute" bottom={50} right={20} onPress={handleAddLine}>
-				Add line
-			</Button>
 		</View>
 	)
 }

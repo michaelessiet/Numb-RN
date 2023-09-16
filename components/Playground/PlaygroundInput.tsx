@@ -3,6 +3,8 @@ import { Input, Paragraph, Separator, XStack, useTheme } from "tamagui"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import engine from "../../lib"
 import { updatePrompt } from "../../store/prompts"
+import { placeholderQuestions } from "../../utils/constants"
+import * as Clipboard from "expo-clipboard"
 
 interface Props {
 	id: string
@@ -14,6 +16,10 @@ const PlaygroundInput = (props: Props) => {
 	const dispatch = useAppDispatch()
 	const { prompts } = useAppSelector((state) => state.promptsdata)
 	const prompt = useMemo(() => prompts[props.index], [prompts])
+	const placeholder = useMemo(
+		() => placeholderQuestions[Math.ceil(Math.random() * 5)],
+		[]
+	)
 
 	const [calculation, setCalculation] = useState(prompt.question)
 
@@ -40,7 +46,7 @@ const PlaygroundInput = (props: Props) => {
 				multiline
 				lineHeight={"$4"}
 				borderWidth={0}
-				placeholder="1+1"
+				placeholder={placeholder}
 				backgroundColor={"$colorTransparent"}
 				value={calculation}
 				onChangeText={setCalculation}
@@ -54,6 +60,7 @@ const PlaygroundInput = (props: Props) => {
 					flexWrap: "wrap",
 					flex: 1,
 				}}
+				onPress={() => Clipboard.setStringAsync(prompt.answer)}
 			>
 				{prompt.answer}
 			</Paragraph>

@@ -1,4 +1,4 @@
-import { equal } from "assert"
+import { equal, match } from "assert"
 import { removeTimeAndIn } from "./utils"
 
 describe("Utility tests", () => {

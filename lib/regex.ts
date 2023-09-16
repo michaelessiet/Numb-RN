@@ -3,5 +3,5 @@ export const timeConversionRegex =
 export const currencyConversionRegex =
 	/([€£$¥₹₽₩₪]?[\d,.]+)\s*([a-zA-Z]+)*\s*(to|in)\s*(([a-zA-Z]+)|[€£$¥₹₽₩₪])/i
 export const currencySymbolRegex = /[€£$¥₹₽₩₪]/g
-export const mathEquationRegex = /[-+*\/\d]/
+export const mathEquationRegex = /^([-+/*(^]*(\s)*\d+(\.\d+)?(%)?(\))?(\s)*)*/g
 export const unitConversionRegex = /(\d+(\.\d+)?)\s*(\w+)\s+(to|in)\s+(\w+)/gi
