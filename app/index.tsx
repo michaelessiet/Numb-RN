@@ -29,7 +29,7 @@ export default function Home() {
 				options={{
 					headerRight: () => {
 						return (
-							<XStack gap={8}>
+							<XStack gap={18}>
 								<Settings onPress={handleSettingsButtonPress} />
 								<PlusCircle onPress={handleAddLine}/>
 							</XStack>

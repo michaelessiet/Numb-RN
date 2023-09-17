@@ -5,6 +5,7 @@ import engine from "../../lib"
 import { updatePrompt } from "../../store/prompts"
 import { placeholderQuestions } from "../../utils/constants"
 import * as Clipboard from "expo-clipboard"
+import { useToastController } from "@tamagui/toast"
 
 interface Props {
 	id: string
@@ -20,6 +21,7 @@ const PlaygroundInput = (props: Props) => {
 		() => placeholderQuestions[Math.ceil(Math.random() * 5)],
 		[]
 	)
+	const toast = useToastController()
 
 	const [calculation, setCalculation] = useState(prompt.question)
 
@@ -60,7 +62,10 @@ const PlaygroundInput = (props: Props) => {
 					flexWrap: "wrap",
 					flex: 1,
 				}}
-				onPress={() => Clipboard.setStringAsync(prompt.answer)}
+				onPress={() => {
+					Clipboard.setStringAsync(prompt.answer)
+					toast.show("Copied", {native: true})
+				}}
 			>
 				{prompt.answer}
 			</Paragraph>

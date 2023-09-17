@@ -10,6 +10,7 @@ import { SplashScreen, Stack } from "expo-router"
 import { TamaguiProvider, Text, Theme } from "tamagui"
 import { Provider } from "react-redux"
 import { PersistGate } from "redux-persist/integration/react"
+import { ToastProvider } from "@tamagui/toast"
 
 import config from "../tamagui.config"
 import { persistor, store } from "../store"
@@ -36,15 +37,17 @@ export default function Layout() {
 		<Provider store={store}>
 			<PersistGate persistor={persistor}>
 				<TamaguiProvider config={config}>
-					<Suspense fallback={<Text>Loading...</Text>}>
-						<Theme name={colorScheme}>
-							<ThemeProvider
-								value={colorScheme === "light" ? DefaultTheme : DarkTheme}
-							>
-								<Stack screenOptions={{}} />
-							</ThemeProvider>
-						</Theme>
-					</Suspense>
+					<ToastProvider>
+						<Suspense fallback={<Text>Loading...</Text>}>
+							<Theme name={colorScheme}>
+								<ThemeProvider
+									value={colorScheme === "light" ? DefaultTheme : DarkTheme}
+								>
+									<Stack screenOptions={{}} />
+								</ThemeProvider>
+							</Theme>
+						</Suspense>
+					</ToastProvider>
 				</TamaguiProvider>
 			</PersistGate>
 		</Provider>

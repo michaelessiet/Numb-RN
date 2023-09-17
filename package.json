@@ -18,9 +18,12 @@
     "@tamagui/lucide-icons": "^1.61.3",
     "@tamagui/theme": "^1.61.3",
     "@tamagui/themes": "^1.61.3",
+    "@tamagui/toast": "^1.66.0",
+    "burnt": "^0.11.7",
     "convert": "^4.13.2",
     "escape-string-regexp": "^5.0.0",
     "expo": "49.0.6",
+    "expo-clipboard": "~4.3.1",
     "expo-constants": "~14.4.2",
     "expo-font": "11.4.0",
     "expo-linear-gradient": "~12.3.0",
@@ -45,8 +48,7 @@
     "redux-persist": "^6.0.0",
     "string-math": "^1.2.2",
     "tamagui": "^1.61.3",
-    "words-to-numbers": "^1.5.1",
-    "expo-clipboard": "~4.3.1"
+    "words-to-numbers": "^1.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.22.17",
