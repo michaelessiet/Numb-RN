@@ -54,3 +54,9 @@ export function convertToDoubleDigit(num: number): string {
 	}
 	return num.toString()
 }
+
+export function toPrecision(value: number, precision: number) {
+	return Intl.NumberFormat("US", { maximumFractionDigits: precision }).format(
+		value
+	)
+}

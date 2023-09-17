@@ -1,48 +1,49 @@
-import convert from "convert"
+import convert, { Angle } from "convert"
 import { evaluate } from "mathjs"
-import { convert12HrTo24Hr, getTimezoneOffset } from "../utils/utils"
+import {
+	convert12HrTo24Hr,
+	getTimezoneOffset,
+	toPrecision,
+} from "../utils/utils"
 import { getTimeInDifferentTimezone } from "./getTime"
+import {
+	currencyConversionRegex,
+	timeConversionRegex,
+	unitConversionRegex,
+} from "./regex"
 
 export function numbEngine(text: string, precision = 2): string {
 	try {
-		if (/^(\d+(\.\d+)?)\s*(\w+)\s+(to|in)\s+(\w+)/gi.test(text)) {
+		if (unitConversionRegex.test(text)) {
 			try {
-				const matches = text
-					.matchAll(/(\d+(\.\d+)?)\s*(\w+)\s+(to|in)\s+(\w+)/gi)
-					.next().value
+				const matches = text.match(unitConversionRegex.source)
 				const values = {
 					value: parseFloat(matches[1]),
 					sourceUnit: matches[3],
 					targetUnit: matches[5],
 				}
 
-				const convertedValue = convert(values.value, values.sourceUnit).to(
-					values.targetUnit
-				)
+				const convertedValue = convert(
+					values.value,
+					values.sourceUnit as Angle
+				).to(values.targetUnit as Angle)
 
-				return `${parseFloat(convertedValue.toString()).toFixed(precision)} ${
-					values.targetUnit
-				}`
+				return `${toPrecision(
+					parseFloat(convertedValue.toString()),
+					precision
+				)} ${values.targetUnit}`
 			} catch (error) {
 				return ""
 			}
 		}
 
-		if (
-			/^([€£$¥₹₽₩₪]?[\d,.]+)\s*([a-zA-Z]+)*\s*(to|in)\s*(([a-zA-Z]+)|[€£$¥₹₽₩₪])/i.test(
-				text
-			)
-		) {
+		if (currencyConversionRegex.test(text)) {
 			return "N/A"
 		}
 
-		if (
-			/(\d{1,2}:?\d{0,2}(?:am|pm)?)\s+([\w/]+)\s+(to|in)\s+([\w/]+)/i.test(text)
-		) {
+		if (timeConversionRegex.test(text)) {
 			try {
-				const matches = text.match(
-					/(\d{1,2}:?\d{0,2}(?:am|pm)?)\s+([\w/]+)\s+(to|in)\s+([\w/]+)/i
-				)
+				const matches = text.match(timeConversionRegex)
 				const time = convert12HrTo24Hr(matches[1])
 				const inputTimezone = getTimezoneOffset(matches[2])
 				const targetTimezone = getTimezoneOffset(matches[4])
@@ -62,9 +63,9 @@ export function numbEngine(text: string, precision = 2): string {
 			}
 		}
 
-		return evaluate(text.toLowerCase()).toFixed(precision)
+		const result = toPrecision(evaluate(text.toLowerCase()), precision)
+		return isNaN(parseFloat(result)) ? "" : result
 	} catch (error) {
-		console.log(error)
 		return ""
 	}
 }

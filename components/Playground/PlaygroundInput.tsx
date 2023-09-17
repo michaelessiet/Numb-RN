@@ -16,6 +16,7 @@ const PlaygroundInput = (props: Props) => {
 	const theme = useTheme()
 	const dispatch = useAppDispatch()
 	const { prompts } = useAppSelector((state) => state.promptsdata)
+	const { precision } = useAppSelector((state) => state.preferencesdata)
 	const prompt = useMemo(() => prompts[props.index], [prompts])
 	const placeholder = useMemo(
 		() => placeholderQuestions[Math.floor(Math.random() * 5)],
@@ -26,7 +27,7 @@ const PlaygroundInput = (props: Props) => {
 	const [calculation, setCalculation] = useState(prompt.question)
 
 	async function handleInput(text: string) {
-		const answer = await engine(text)
+		const answer = await engine(text, precision)
 		dispatch(
 			updatePrompt({
 				answer: answer,
@@ -38,7 +39,7 @@ const PlaygroundInput = (props: Props) => {
 
 	useEffect(() => {
 		handleInput(calculation)
-	}, [calculation])
+	}, [calculation, precision])
 
 	return (
 		<XStack separator={<Separator vertical alignSelf="stretch" />}>
@@ -56,6 +57,7 @@ const PlaygroundInput = (props: Props) => {
 			<Paragraph
 				lineHeight={"$4"}
 				fontSize={"$5"}
+				selectable={false}
 				style={{
 					padding: 16,
 					color: theme.blue10.get(),
@@ -64,7 +66,7 @@ const PlaygroundInput = (props: Props) => {
 				}}
 				onPress={() => {
 					Clipboard.setStringAsync(prompt.answer)
-					toast.show("Copied", {native: true})
+					toast.show("Copied", { native: true })
 				}}
 			>
 				{prompt.answer}

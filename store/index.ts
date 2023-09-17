@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit"
 import { persistCombineReducers, persistStore } from "redux-persist"
 import { promptReducer } from "./prompts"
 import { MMKVLoader } from "react-native-mmkv-storage"
+import { preferencesReducer } from "./preferences"
 
 const mmkvStorage = new MMKVLoader().withEncryption().initialize()
 
@@ -9,6 +10,7 @@ const persistedReducers = persistCombineReducers(
 	{ key: "root", storage: mmkvStorage },
 	{
 		promptsdata: promptReducer,
+		preferencesdata: preferencesReducer,
 	}
 )
 

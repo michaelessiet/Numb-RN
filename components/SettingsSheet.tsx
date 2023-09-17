@@ -1,5 +1,6 @@
 import React, { useMemo } from "react"
 import {
+	Input,
 	Label,
 	Sheet,
 	Switch,
@@ -10,6 +11,8 @@ import {
 } from "tamagui"
 import { Sun, Moon } from "@tamagui/lucide-icons"
 import { Link } from "expo-router"
+import { useAppDispatch, useAppSelector } from "../store/hooks"
+import { updatePrecision } from "../store/preferences"
 
 interface Props {
 	isOpen: boolean
@@ -19,10 +22,21 @@ interface Props {
 const SettingsSheet = (props: Props) => {
 	const theme = useThemeName()
 	const isDark = useMemo(() => theme === "dark", [theme])
+	const { precision } = useAppSelector((state) => state.preferencesdata)
+	const dispatch = useAppDispatch()
+
+	function handlePrecisionInput(text: string) {
+		try {
+			const pre = parseInt(text)
+			if (isNaN(pre)) dispatch(updatePrecision(0))
+			else dispatch(updatePrecision(parseInt(text)))
+		} catch (error) {}
+	}
 
 	return (
 		<Sheet
 			open={props.isOpen}
+			moveOnKeyboardChange
 			modal
 			onOpenChange={props.onOpenChange}
 			snapPointsMode="fit"
@@ -44,12 +58,20 @@ const SettingsSheet = (props: Props) => {
 					</XStack>
 				</XStack> */}
 
-				<Link
-					href={"/help"}
-					onPress={props.onOpenChange}
-					style={{ fontSize: 18 }}
-				>
-					<Text>Help/Instructions</Text>
+				<XStack alignItems="center" justifyContent="space-between" space="$4">
+					<Text width={90} style={{ fontSize: 16 }}>
+						Precision
+					</Text>
+
+					<Input
+						keyboardType="number-pad"
+						value={precision?.toString()}
+						onChangeText={handlePrecisionInput}
+					/>
+				</XStack>
+
+				<Link href={"/help"} onPress={props.onOpenChange}>
+					<Text style={{ fontSize: 16 }}>Help/Instructions</Text>
 				</Link>
 			</Sheet.Frame>
 		</Sheet>
