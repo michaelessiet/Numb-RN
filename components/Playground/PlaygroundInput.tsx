@@ -18,7 +18,7 @@ const PlaygroundInput = (props: Props) => {
 	const { prompts } = useAppSelector((state) => state.promptsdata)
 	const prompt = useMemo(() => prompts[props.index], [prompts])
 	const placeholder = useMemo(
-		() => placeholderQuestions[Math.ceil(Math.random() * 5)],
+		() => placeholderQuestions[Math.floor(Math.random() * 5)],
 		[]
 	)
 	const toast = useToastController()

@@ -1,5 +1,6 @@
 import { equal, match } from "assert"
-import { removeTimeAndIn } from "./utils"
+import { convert12HrTo24Hr, removeTimeAndIn } from "./utils"
+import {getDateParts, getTimeInDifferentTimezone} from '../lib/getTime'
 
 describe("Utility tests", () => {
 	it("remove time and in from a string", () => {
