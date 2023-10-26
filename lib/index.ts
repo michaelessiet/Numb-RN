@@ -11,10 +11,14 @@ import {
 	timeConversionRegex,
 	unitConversionRegex,
 } from "./regex"
+import currencyConverter from "./currencyConverter"
 
-export function numbEngine(text: string, precision = 2): string {
+export async function numbEngineAsync(
+	text: string,
+	precision = 2
+): Promise<string> {
 	try {
-		if (unitConversionRegex.test(text)) {
+		if (/^(\d+(\.\d+)?)\s*(\w+)\s+(to|in)\s+(\w+)\s*/gi.test(text)) {
 			try {
 				const matches = text.match(unitConversionRegex.source)
 				const values = {
@@ -33,11 +37,17 @@ export function numbEngine(text: string, precision = 2): string {
 					precision
 				)} ${values.targetUnit}`
 			} catch (error) {
-				return ""
+				if (currencyConversionRegex.test(text)) {
+					await currencyConverter(text)
+					return "N/A"
+				}
+
+				return "N/A"
 			}
 		}
 
 		if (currencyConversionRegex.test(text)) {
+			await currencyConverter(text)
 			return "N/A"
 		}
 
@@ -70,16 +80,9 @@ export function numbEngine(text: string, precision = 2): string {
 	}
 }
 
-export async function numbEngineAsync(
-	text: string,
-	precision = 2
-): Promise<string> {
-	return "1"
-}
-
 export default async function engine(
 	text: string,
 	precision = 2
 ): Promise<string> {
-	return numbEngine(text, precision)
+	return await numbEngineAsync(text, precision)
 }

@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { numbEngine } from "../../lib"
 import { placeholderQuestions } from "../../utils/constants"
 import { randomUUID } from "../../utils/utils"
 
@@ -16,17 +15,17 @@ const initialValue: { prompts: Prompts } = {
 		{
 			id: randomUUID(),
 			question: placeholderQuestions[0],
-			answer: numbEngine(placeholderQuestions[0]),
+			answer: "",
 		},
 		{
 			id: randomUUID(),
 			question: placeholderQuestions[1],
-			answer: numbEngine(placeholderQuestions[1]),
+			answer: "",
 		},
 		{
 			id: randomUUID(),
 			question: placeholderQuestions[2],
-			answer: numbEngine(placeholderQuestions[2]),
+			answer: "",
 		},
 	],
 }

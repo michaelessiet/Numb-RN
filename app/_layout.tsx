@@ -28,8 +28,7 @@ export default function Layout() {
 	useEffect(() => {
 		if (loaded) {
 			SplashScreen.hideAsync()
-		}
-	}, [loaded])
+		} }, [loaded])
 
 	if (!loaded) return null
 

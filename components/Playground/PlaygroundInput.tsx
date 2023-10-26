@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react"
-import { Input, Paragraph, Separator, XStack, useTheme } from "tamagui"
+import { Input, Paragraph, Separator, XStack, styled, useTheme } from "tamagui"
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import engine from "../../lib"
 import { updatePrompt } from "../../store/prompts"
@@ -44,7 +44,8 @@ const PlaygroundInput = (props: Props) => {
 	return (
 		<XStack separator={<Separator vertical alignSelf="stretch" />}>
 			<Input
-				style={{ width: "75%", paddingRight: 10 }}
+				width={"75%"}
+				paddingRight={10}
 				fontSize={"$5"}
 				multiline
 				lineHeight={"$4"}
